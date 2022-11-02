@@ -2,6 +2,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chrome_options
 
+from selenium.webdriver.common.by import By
+
 
 @pytest.fixture
 def get_chrome_options():
@@ -26,3 +28,4 @@ def setup(request, get_webdriver):
     driver.get(url)
     yield driver
     driver.quit()
+
