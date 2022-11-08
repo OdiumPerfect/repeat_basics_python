@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
+from typing import List
 
 
 class SeleniumBase:
@@ -9,7 +10,7 @@ class SeleniumBase:
         self.driver = driver
         self.wait = WebDriverWait(driver, 15, 0.2)
 
-    def get_selenium_by(self, find_by: str) -> dict:
+    def __get_selenium_by(self, find_by: str) -> dict:
         find_by = find_by.lower()
         locating = {
             'css': By.CSS_SELECTOR,
@@ -25,23 +26,27 @@ class SeleniumBase:
 
     # будет ли элемент виден на странице
     def is_visible(self, find_by: str, locator: str, locator_name: str) -> WebElement:
-        return self.wait.until(ec.visibility_of_element_located((self.get_selenium_by(find_by), locator)), locator_name)
+        return self.wait.until(ec.visibility_of_element_located((self.__get_selenium_by(find_by), locator)), locator_name)
 
     # есть элемент на странице
     def is_present(self, find_by: str, locator: str, locator_name: str) -> WebElement:
-        return self.wait.until(ec.presence_of_element_located((self.get_selenium_by(find_by), locator)), locator_name)
+        return self.wait.until(ec.presence_of_element_located((self.__get_selenium_by(find_by), locator)), locator_name)
 
     # нет элемента на странице
     def is_not_present(self, find_by: str, locator: str, locator_name: str) -> WebElement:
-        return self.wait.until(ec.invisibility_of_element_located((self.get_selenium_by(find_by), locator)),
+        return self.wait.until(ec.invisibility_of_element_located((self.__get_selenium_by(find_by), locator)),
                                locator_name)
 
     # будут ли видны элементы на странице
-    def as_visible(self, find_by: str, locator: str, locator_name: str) -> WebElement:
-        return self.wait.until(ec.visibility_of_all_elements_located((self.get_selenium_by(find_by), locator)),
+    def are_visible(self, find_by: str, locator: str, locator_name: str) -> List[WebElement]:
+        """
+
+        :rtype: object
+        """
+        return self.wait.until(ec.visibility_of_all_elements_located((self.__get_selenium_by(find_by), locator)),
                                locator_name)
 
     # есть ли элементы на странице
-    def are_present(self, find_by: str, locator: str, locator_name: str) -> WebElement:
-        return self.wait.until(ec.presence_of_all_elements_located((self.get_selenium_by(find_by), locator)),
+    def are_present(self, find_by: str, locator: str, locator_name: str) -> List[WebElement]:
+        return self.wait.until(ec.presence_of_all_elements_located((self.__get_selenium_by(find_by), locator)),
                                locator_name)
