@@ -26,6 +26,7 @@ def setup(request, get_webdriver):
     if request.cls is not None:
         request.cls.driver = driver
     driver.get(url)
+    driver.delete_all_cookies() # Если на сайте есть защита от роботов
     yield driver
     driver.quit()
 

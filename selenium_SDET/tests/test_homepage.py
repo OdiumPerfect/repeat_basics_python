@@ -17,8 +17,19 @@ class TestHomepage():
 
     def test_nav_links(self):
         home_page_nav = HomepageNav(self.driver)
+
         # time.sleep(30)
         # print(home_page_nav.get_nav_links_text())
         actual_links = home_page_nav.get_nav_links_text()
         expected_links = home_page_nav.NAV_LINK_TEXT
         assert actual_links == expected_links, 'Ошибка меню навигации'
+        home_page_nav.get_nav_link_by_name('Музыка').click()
+        time.sleep(3)
+        cookies = home_page_nav.driver.get_cookies()
+        cookies_names = [cookie['name'] for cookie in cookies]
+        # print(cookies)
+        print(cookies_names)
+        # elements = home_page_nav.get_nav_links()
+        # for element in elements:
+        #     element.click()
+        #     time.sleep(3)
